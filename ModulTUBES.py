@@ -167,10 +167,10 @@ def masuk():
 
 def ubah_password():
     system('cls')
-    id = input("Masukkan user ID: ")
+    id = input("Masukkan user ID\t\t: ")
     lama = input("Masukkan password sekarang\t: ")
-    baru = input("Masukkan password baru\t: ")
-    ulang = input("Ulangi password baru\t: ")
+    baru = input("Masukkan password baru\t\t: ")
+    ulang = input("Ulangi password baru\t\t: ")
     baris = 0
     with open("data_pengguna.txt", mode="r") as fread:
         for line in fread:
@@ -186,9 +186,12 @@ def ubah_password():
         with open("data_pengguna.txt", mode="w") as fwrite:
             fwrite.writelines(get_all)
         print("Password berhasil diubah!")
+        system('pause')
+        masuk()
     else:
         print("Password yang anda ulangi salah!")
         system('pause')
+        ubah_password()
 
 
 def profil():
@@ -200,11 +203,13 @@ def profil():
     if(pilihan == 1):
         system('cls')
         data = cari(id)
-        print(f"User ID\t: {data[0]}")
+        print("INFORMASI AKUN")
+        print("-" * 30)
+        print(f"User ID\t\t: {data[0]}")
         print(f"Nama Pengguna\t: {data[7]}", end="")
         print(f"Nomor Rekening\t: {data[3]}")
         print(f"Nomor telepon\t: {data[5]}")
-        print(f"Saldo\t: {data[6]}")
+        print(f"Saldo\t\t: {data[6]}")
         system('pause')
         menu()
     elif(pilihan == 2):
@@ -225,7 +230,7 @@ def transfer():
     system('cls')
     print("Selamat datang di bagian transfer")
     print("Pastikan nomor rekening yang anda masukkan benar!")
-    bank = input("Apakah anda ingin transaksi antarbank? (y/n)\n")
+    bank = input("Apakah anda ingin transaksi antarbank? (y/n) ")
     if(bank.upper() == "Y"):
         print_daftar(daftar_instansi)
         instansi = input("Bank tujuan\t: ")
@@ -234,11 +239,11 @@ def transfer():
             print("Instansi tidak tersedia.")
             system('pause')
             transfer()
-        print(f"Kode bank adalah {kode}")
+        print(f"Kode bank adalah \t\t\t: {kode}")
         tujuan = input(
             "Masukkan rekening tujuan (diawali dengan kode bank)\t: ")
-        nominal = int(input("Masukkan nominal\t: "))
-        catatan = input("Catatan\t: ")
+        nominal = int(input("Masukkan nominal\t\t\t: "))
+        catatan = input("Catatan (max 50 karakter)\t: ")
         pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n) ")
         if(pilihan.upper() == "Y"):
             system('cls')
@@ -274,8 +279,8 @@ def transfer():
             transfer()
     elif(bank.upper() == "N"):
         tujuan = input("Masukkan rekening tujuan\t: ")
-        nominal = int(input("Masukkan nominal\t: "))
-        catatan = input("Catatan\t: ")
+        nominal = int(input("Masukkan nominal\t\t: "))
+        catatan = input("Catatan (max 50 karakter)\t: ")
         pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n) ")
         if(pilihan.upper() == "Y"):
             bisa = check_pin()
@@ -341,7 +346,7 @@ def multi():
     print("Pastikan kode pembayaran yang anda masukkan benar!")
     print_daftar(daftar_multipayment)
     data = cari(id)
-    nama = input("Masukkan nama instansi/perusahaan\t: ")
+    nama = input("Masukkan nama instansi/perusahaan\t\t\t: ")
     kode = daftar_multipayment.get(nama.upper())
     if(kode == None):
         print("Instansi tidak tersedia.")
@@ -350,7 +355,7 @@ def multi():
     print(f"Kode perusahaannya adalah {kode}")
     bayar = input(
         "Masukkan kode pembayaran (diawali dengan kode perusahaan)\t: ")
-    nominal = int(input("Masukkan nominal\t: "))
+    nominal = int(input("Masukkan nominal\t\t\t\t: "))
     check_pin()
     pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n)")
     if(pilihan.upper() == "Y"):
@@ -430,22 +435,23 @@ def kontak():
     system('cls')
     print("Frequently Asked Question")
     print("Q\t:\t\"Apa itu layanan BRE Mobile?\"")
-    print("A\t:\tLayanan BRE Mobile adalah layanan perbankan dari BRE yang memberikan kemudahan dan kenyamanan dalam bertransaksi melalui smartphone.")
+    print("A\t:\tLayanan BRE Mobile adalah layanan perbankan dari BRE yang memberikan kemudahan dan kenyamanan dalam bertransaksi melalui smartphone.\n")
     print("Q\t:\t\"Apakah pembukaan rekening baru dapat dilakukan melalui aplikasi BRE Mobile?\"")
-    print("A\t:\tPembukaan rekening baru tidak dapat dilakukan pada aplikasi BRE Mobile, melainkan harus mendatangi kantor cabang terdekat.")
+    print("A\t:\tPembukaan rekening baru tidak dapat dilakukan pada aplikasi BRE Mobile, melainkan harus mendatangi kantor cabang terdekat.\n")
     print("Q\t:\t\"Bagaimana cara mengubah password?\"")
-    print("A\t:\tAnda dapat mengubah password pada menu profil lalu pilih menu ubah password.")
+    print("A\t:\tAnda dapat mengubah password pada menu profil lalu pilih menu ubah password.\n")
     print("Q\t:\t\"Bagaimana jika saya ingin melihat histori transaksi saya?\"")
-    print("A\t:\tAnda dapat melihat histori transaksi pada menu info rekening lalu pilih mutasi rekening.")
+    print("A\t:\tAnda dapat melihat histori transaksi pada menu info rekening lalu pilih mutasi rekening.\n")
     print("Q\t:\t\"Apa yang harus dilakukan jika kartu BRE Debit hilang?\"")
     print("A\t:\tHal yang pertama harus dilakukan adalah memblokir kartu yang hilang melalui call center atau cabang.")
     print("\n\nKontak Bank Rakyat Elite")
-    print("-"*20)
-    print("Whatsapp\t:\t")
-    print("Telegram\t:\t")
-    print("Instagram\t:\t")
-    print("Twitter\t:\t")
-    print("No. telp\t:\t")
+    print("-"*25)
+    print("Whatsapp\t: 081321899777")
+    print("Telegram\t: @siapbremobile")
+    print("Instagram\t: @siapbremobile")
+    print("Twitter\t\t: @siapbremobile")
+    print("No. telp\t: 12120")
+    print("E-mail\t\t: halobremobile@bre.co.id")
     system('pause')
     menu()
 
@@ -454,8 +460,8 @@ def menu():
     system('cls')
     print("1. Profil dan Informasi")
     print("2. Transfer")
-    print("3. Multi-payment")
-    print("4. Top up")
+    print("3. Multipayment")
+    print("4. Top-up")
     print("5. FAQ dan Kontak")
     print("6. Log out")
     opsi = input("Pilihan menu: ")

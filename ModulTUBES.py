@@ -157,6 +157,7 @@ def operasi_saldo(id, nominal):
             fwrite.writelines(get_all)
         status = True
     else:
+        system('cls')
         print("Saldo anda tidak mencukupi!")
     return(status)
 
@@ -342,7 +343,8 @@ Masukkan pilihan: """)
                     system('pause')
                     menu()
                 else:
-                    transfer()
+                    system('pause')
+                    menu()
             else:
                 print(
                     "PIN yang anda masukkan sudah salah sebanyak 3x, silahkan mengulang!")
@@ -409,7 +411,8 @@ Masukkan pilihan: """)
                 system('pause')
                 menu()
             elif(bisa and operasi_saldo(id, nominal) == False):
-                transfer()
+                system('pause')
+                menu()
             else:
                 print(
                     "PIN yang anda masukkan sudah salah sebanyak 3x, silahkan mengulang!")

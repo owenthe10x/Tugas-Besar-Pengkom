@@ -14,10 +14,11 @@ while(1 > 0):
 ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚═╝╚══════╝╚══════╝""")
     print("-"*75)
     print("Masuk/Daftar/Keluar")
-    opsi_awal = input("")
+    opsi_awal = input("> ")
     if(opsi_awal.upper() == "MASUK"):
         masuk()
     elif(opsi_awal.upper() == "DAFTAR"):
+        system('cls')
         buat_akun()
     elif(opsi_awal.upper() == "KELUAR"):
         system('cls')
@@ -34,7 +35,7 @@ while(1 > 0):
         system('cls')
         exit()
     else:
-        print("Pilihannya hanya Masuk/Daftar/Keluar !!!")
+        print("Pilihannya hanya Masuk/Daftar/Keluar.")
         system('pause')
         system('cls')
 

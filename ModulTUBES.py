@@ -60,15 +60,42 @@ def waktu():
 
 
 def buat_akun():
-    nama = input("Masukkan nama lengkap\t:\t")
-    no = input("Masukkan No KTP/NIK\t:\t")
-    rek = input("Masukkan nomor rekening\t:\t")
-    id = input("Masukkan user ID (tanpa spasi)\t:\t")
-    password = input("Masukkan password\t:\t")
-    pin = input("Masukkan pin\t(6 digit):\t")
-    no_hp = input("Masukkan nomor handphone\t:\t")
-    with open("data_pengguna.txt", mode="a") as fread:
-        fread.write(
+    print("-" * 101)
+    print('|{:^100}|'.format("PENDAFTARAN AKUN BARU"))
+    print("-" * 101)
+    gaada = False
+    nama = input("Masukkan nama lengkap\t\t\t: ")
+    no = input("Masukkan No KTP/NIK\t\t\t: ")
+    rek = input("Masukkan nomor rekening\t\t\t: ")
+    id = input("Masukkan user ID (tanpa spasi)\t\t: ")
+    with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
+            for line in fread:
+                if(line.split("#")[0] == id):
+                    gaada = True
+    while(gaada == True):
+        print("User ID tidak tersedia!")
+        system('pause')
+        system('cls')
+        print("-" * 101)
+        print('|{:^100}|'.format("PENDAFTARAN AKUN BARU"))
+        print("-" * 101)
+        print(f"Masukkan nama lengkap\t\t\t: {nama}")
+        print(f"Masukkan No KTP/NIK\t\t\t: {no}")
+        print(f"Masukkan nomor rekening\t\t\t: {rek}")
+        id = input("Masukkan user ID (tanpa spasi)\t\t: ")
+        with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
+            for line in fread:
+                if(line.split("#")[0] == id):
+                    gaada = True
+                    break
+                else:
+                    gaada= False
+            
+    password = input("Masukkan password\t\t\t: ")
+    pin = input("Masukkan pin (6 digit)\t\t\t: ")
+    no_hp = input("Masukkan nomor handphone\t\t: ")     
+    with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="a") as fwrite:
+        fwrite.write(
             f"{id}#{password}#{no}#{rek}#{pin}#{no_hp}#100000#{nama}\n")
     print("Pendaftaran akun berhasil!")
     system('pause')
@@ -76,7 +103,7 @@ def buat_akun():
 
 
 def cari(id):
-    with open("data_pengguna.txt", mode="r") as fread:
+    with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
         for line in fread:
             if(line.split("#")[0] == id):
                 break
@@ -90,8 +117,8 @@ def check_pin():
     tries = 0
     while(tries < 3):
         global id
-        pin = input("Masukkan pin anda\t:\t")
-        with open("data_pengguna.txt", mode="r") as fread:
+        pin = input("Masukkan PIN anda\t: ")
+        with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
             for line in fread:
                 if(line.split("#")[0] == id):
                     found = True
@@ -99,10 +126,12 @@ def check_pin():
         templist = line.split("#")
         if(pin == templist[4]):
             status = True
-            print("Pin benar!")
+            print("PIN benar!")
             break
         else:
-            print("Pin salah!")
+            print("PIN salah!")
+            system('pause')
+            system('cls')
         tries += 1
     system('pause')
     return status
@@ -111,7 +140,7 @@ def check_pin():
 def operasi_saldo(id, nominal):
     baris = 0
     status = False
-    with open("data_pengguna.txt", mode="r") as fread:
+    with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
         for line in fread:
             if(id == line.split("#")[0]):
                 temp = line.split("#")
@@ -124,7 +153,7 @@ def operasi_saldo(id, nominal):
         temp[6] -= nominal
         temp[6] = str(temp[6])
         get_all[baris] = "#".join(temp)
-        with open("data_pengguna.txt", mode="w") as fwrite:
+        with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="w") as fwrite:
             fwrite.writelines(get_all)
         status = True
     else:
@@ -137,8 +166,11 @@ def masuk():
     found = False
     global id
     tries = 0
+    print("-" * 36)
+    print('|{:^35}|'.format("MASUK"))
+    print("-" * 36)
     id = input("User ID\t\t: ")
-    with open("data_pengguna.txt", mode="r") as fread:
+    with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
         for line in fread:
             if(line.split("#")[0] == id):
                 found = True
@@ -153,11 +185,17 @@ def masuk():
             password = input("Password\t: ")
             templist_login = line.split("#")
             if(password == templist_login[1]):
-                print("Login Berhasil!")
+                print("\n> Login Berhasil!")
                 system('pause')
                 menu()
             else:
                 print("Password salah!")
+                system('pause')
+                system('cls')
+                print("-" * 36)
+                print('|{:^35}|'.format("MASUK"))
+                print("-" * 36)
+                print(f"User ID\t\t: {id}")
     pilihan = input("Ganti password? (y/n) ")
     if(pilihan.upper() == "Y"):
         ubah_password()
@@ -167,31 +205,50 @@ def masuk():
 
 def ubah_password():
     system('cls')
+    print("-" * 56)
+    print('|{:^55}|'.format("UBAH PASSWORD"))
+    print("-" * 56)
     id = input("Masukkan user ID\t\t: ")
-    lama = input("Masukkan password sekarang\t: ")
-    baru = input("Masukkan password baru\t\t: ")
-    ulang = input("Ulangi password baru\t\t: ")
-    baris = 0
-    with open("data_pengguna.txt", mode="r") as fread:
-        for line in fread:
-            if(id == line.split("#")[0]):
-                temp = line.split("#")
-                break
-            baris += 1
-        fread.seek(0)
-        get_all = fread.readlines()
-    if(baru == ulang):
-        temp[1] = baru
-        get_all[baris] = "#".join(temp)
-        with open("data_pengguna.txt", mode="w") as fwrite:
-            fwrite.writelines(get_all)
-        print("Password berhasil diubah!")
-        system('pause')
-        masuk()
-    else:
-        print("Password yang anda ulangi salah!")
-        system('pause')
-        ubah_password()
+    while True:
+        lama = input("Masukkan password sekarang\t: ")
+        with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
+            for line in fread:
+                if(line.split("#")[0] == id):
+                    found = True
+                    break
+        if(lama != line.split("#")[1]):
+            print("Password tidak sesuai!")
+            system('pause')
+            system('cls')
+            print("-" * 56)
+            print('|{:^55}|'.format("UBAH PASSWORD"))
+            print("-" * 56)
+            print(f"User ID\t\t\t\t: {id}")
+            continue
+        else:
+            baru = input("Masukkan password baru\t\t: ")
+            ulang = input("Ulangi password baru\t\t: ")
+            baris = 0
+            with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
+                for line in fread:
+                    if(id == line.split("#")[0]):
+                        temp = line.split("#")
+                        break
+                    baris += 1
+                fread.seek(0)
+                get_all = fread.readlines()
+            if(baru == ulang):
+                temp[1] = baru
+                get_all[baris] = "#".join(temp)
+                with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="w") as fwrite:
+                    fwrite.writelines(get_all)
+                print("\nPassword berhasil diubah!")
+                system('pause')
+                masuk()
+            else:
+                print("Password yang anda ulangi salah!")
+                system('pause')
+                ubah_password()
 
 
 def profil():
@@ -203,8 +260,9 @@ def profil():
     if(pilihan == 1):
         system('cls')
         data = cari(id)
-        print("INFORMASI AKUN")
-        print("-" * 30)
+        print("-" * 40) # sesuain sama  max input pas pendaftaran
+        print('|{:^39}|'.format("INFORMASI AKUN"))
+        print("-" * 40)
         print(f"User ID\t\t: {data[0]}")
         print(f"Nama Pengguna\t: {data[7]}", end="")
         print(f"Nomor Rekening\t: {data[3]}")
@@ -221,39 +279,56 @@ def profil():
 
 
 def print_daftar(dictionary):
-    print("Daftar instansi:")
+    print("\nDaftar instansi:")
+    print("-" * 16)
     for i in dictionary:
         print(f"{i}")
 
 
 def transfer():
     system('cls')
-    print("Selamat datang di bagian transfer")
-    print("Pastikan nomor rekening yang anda masukkan benar!")
-    bank = input("Apakah anda ingin transaksi antarbank? (y/n) ")
-    if(bank.upper() == "Y"):
+    print("-" * 76)
+    print('|{:^75}|'.format("TRANSFER"))
+    print("-" * 76)
+    bank = input("""Pilihan transfer:
+
+1. Antarbank
+2. Antarrekening
+    
+> Masukkan pilihan: """)
+    if(bank == "1"):
+        system('cls')
+        print("-" * 76)
+        print('|{:^75}|'.format("TRANSFER"))
+        print("-" * 76)
         print_daftar(daftar_instansi)
-        instansi = input("Bank tujuan\t: ")
+        print("-" * 16)
+        instansi = input("\nMasukkan nama bank tujuan\t\t\t\t: ")
         kode = daftar_instansi.get(instansi.upper())
         if(kode == None):
             print("Instansi tidak tersedia.")
             system('pause')
             transfer()
-        print(f"Kode bank adalah \t\t\t: {kode}")
+        print(f"Kode bank adalah \t\t\t\t\t: {kode}")
         tujuan = input(
             "Masukkan rekening tujuan (diawali dengan kode bank)\t: ")
-        nominal = int(input("Masukkan nominal\t\t\t: "))
-        catatan = input("Catatan (max 50 karakter)\t: ")
-        pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n) ")
-        if(pilihan.upper() == "Y"):
+        nominal = int(input("Masukkan nominal\t\t\t\t\t: "))
+        catatan = input("Catatan (max 50 karakter)\t\t\t\t: ")
+        print("\n")
+        pilihan = input("""Mohon pastikan kembali data yang anda masukkan!
+Data sudah benar?
+1. Lanjut
+2. Kembali
+Masukkan pilihan: """)
+        if(pilihan == "1"):
             system('cls')
             bisa = check_pin()
             if(bisa):
                 if(operasi_saldo(id, nominal)):
                     system('cls')
-                    print("-" * 70)
+                    print("-" * 71)
                     print('|{:^70}|'.format("STRUK TRANSFER"))
-                    print("-" * 70)
+                    print("-" * 71)
                     print('|{:<70}|'.format("TRANSFER BERHASIL!"))
                     print('|{:<15}{:<55}|'.format("Waktu", f": {waktu()}"))
                     print('|{:<15}{:<55}|'.format("Tujuan", f": {tujuan}"))
@@ -261,32 +336,43 @@ def transfer():
                     print('|{:<15}{:<55}|'.format(
                         "Nominal", f": Rp{nominal},00"))
                     print('|{:<15}{:<55}|'.format("Catatan", f": {catatan}"))
-                    print("-" * 70)
+                    print("-" * 71)
                     print('|{:^70}|'.format("BANK RAKYAT ELITE"))
-                    print("-" * 70)
+                    print("-" * 71)
                     system('pause')
                     menu()
+                else:
+                    transfer()
             else:
                 print(
                     "PIN yang anda masukkan sudah salah sebanyak 3x, silahkan mengulang!")
                 system('pause')
                 transfer()
-        elif(pilihan.upper() == "N"):
+        elif(pilihan == "2"):
             transfer()
         else:
-            print("Masukkan y atau n!")
+            print("Masukkan 1 atau 2!")
             system('pause')
             transfer()
-    elif(bank.upper() == "N"):
+    elif(bank == "2"):
+        system('cls')
+        print("-" * 76)
+        print('|{:^75}|'.format("TRANSFER"))
+        print("-" * 76)
         tujuan = input("Masukkan rekening tujuan\t: ")
         nominal = int(input("Masukkan nominal\t\t: "))
         catatan = input("Catatan (max 50 karakter)\t: ")
-        pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n) ")
-        if(pilihan.upper() == "Y"):
+        pilihan = input("""
+Mohon pastikan kembali data yang anda masukkan!
+Data sudah benar?
+1. Lanjut
+2. Kembali
+Masukkan pilihan: """)
+        if(pilihan == "1"):
             bisa = check_pin()
             if(bisa and operasi_saldo(id, nominal)):
                 baris = 0
-                with open("data_pengguna.txt", mode="r") as fread:
+                with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
                     for line in fread:
                         if(line.split("#")[3] == tujuan):
                             temp = line.split("#")
@@ -298,43 +384,45 @@ def transfer():
                 temp[6] += nominal
                 temp[6] = str(temp[6])
                 get_all[baris] = "#".join(temp)
-                with open("data_pengguna.txt", mode="w") as fwrite:
+                with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="w") as fwrite:
                     fwrite.writelines(get_all)
-                with open("data_pengguna.txt", mode="r") as fread:
+                with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
                     for line in fread:
                         if(line.split("#")[3] == tujuan):
                             temp = line.split("#")
                             break
                 system('cls')
-                print("-" * 70)
+                print("-" * 71)
                 print('|{:^70}|'.format("STRUK TRANSFER"))
-                print("-" * 70)
+                print("-" * 71)
                 print('|{:<70}|'.format("TRANSFER BERHASIL!"))
                 print('|{:<15}{:<55}|'.format("Waktu", f": {waktu()}"))
                 print('|{:<15}{:<55}|'.format("Tujuan", f": {tujuan}"))
                 print('|{:<15}{:<55}|'.format(
-                    "Nama Penerima", f": {temp[7]}", end=""))
+                    "Nama Penerima", f": {temp[7].strip()}"))
                 nominal = ('{0:,}'.format(nominal).replace(',', '.'))
                 print('|{:<15}{:<55}|'.format("Nominal", f": Rp{nominal},00"))
                 print('|{:<15}{:<55}|'.format("Catatan", f": {catatan}"))
-                print("-" * 70)
+                print("-" * 71)
                 print('|{:^70}|'.format("BANK RAKYAT ELITE"))
-                print("-" * 70)
+                print("-" * 71)
                 system('pause')
                 menu()
+            elif(bisa and operasi_saldo(id, nominal) == False):
+                transfer()
             else:
                 print(
                     "PIN yang anda masukkan sudah salah sebanyak 3x, silahkan mengulang!")
                 system('pause')
                 transfer()
-        elif(pilihan.upper() == "N"):
+        elif(pilihan.upper() == "2"):
             transfer()
         else:
-            print("Masukkan y atau n!")
+            print("Masukkan 1 atau 2!")
             system('pause')
             transfer()
     else:
-        print("Masukkan y atau n!")
+        print("Masukkan 1 atau 2!")
         system('pause')
         transfer()
 
@@ -342,42 +430,50 @@ def transfer():
 def multi():
     global id
     system('cls')
-    print("Selamat datang di bagian multi-payment")
-    print("Pastikan kode pembayaran yang anda masukkan benar!")
+    print("-" * 76)
+    print('|{:^75}|'.format("MULTIPAYMENT"))
+    print("-" * 76)
     print_daftar(daftar_multipayment)
+    print("-" * 16)
     data = cari(id)
-    nama = input("Masukkan nama instansi/perusahaan\t\t\t: ")
+    nama = input("\nMasukkan nama instansi/perusahaan\t\t\t: ")
     kode = daftar_multipayment.get(nama.upper())
     if(kode == None):
         print("Instansi tidak tersedia.")
         system('pause')
         multi()
-    print(f"Kode perusahaannya adalah {kode}")
+    print(f"Kode perusahaan \t\t\t\t\t: {kode}")
     bayar = input(
-        "Masukkan kode pembayaran (diawali dengan kode perusahaan)\t: ")
-    nominal = int(input("Masukkan nominal\t\t\t\t: "))
-    check_pin()
-    pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n)")
-    if(pilihan.upper() == "Y"):
-        if(operasi_saldo(id, nominal)):
-            system('cls')
-            print("-" * 70)
-            print('|{:^70}|'.format("STRUK PEMBAYARAN"))
-            print("-" * 70)
-            print('|{:<70}|'.format("PEMBAYARAN BERHASIL!"))
-            print('|{:<15}{:<55}|'.format("Waktu", f": {waktu()}"))
-            print('|{:<15}{:<55}|'.format("Kode Referensi", f": {bayar}"))
-            print('|{:<15}{:<55}|'.format("Instansi", f": {nama.upper()}"))
-            nominal = ('{0:,}'.format(nominal).replace(',', '.'))
-            print('|{:<15}{:<55}|'.format("Nominal", f": Rp{nominal},00"))
-            print("-" * 70)
-            print('|{:^70}|'.format("BANK RAKYAT ELITE"))
-            print("-" * 70)
-            system('pause')
-    elif(pilihan.upper() == "N"):
+        "Kode pembayaran (diawali dengan kode perusahaan)\t: ")
+    nominal = int(input("Masukkan nominal\t\t\t\t\t: "))
+    pilihan = input("""\n\nMohon pastikan kembali data yang anda masukkan!
+Data sudah benar?
+1. Lanjut
+2. Kembali
+Masukkan pilihan: """)
+    if(pilihan.upper() == "1"):
+        if(check_pin() == True):
+            if(operasi_saldo(id, nominal)):
+                system('cls')
+                print("-" * 71)
+                print('|{:^70}|'.format("STRUK PEMBAYARAN"))
+                print("-" * 71)
+                print('|{:<70}|'.format("PEMBAYARAN BERHASIL!"))
+                print('|{:<15}{:<55}|'.format("Waktu", f": {waktu()}"))
+                print('|{:<15}{:<55}|'.format("Kode Referensi", f": {bayar}"))
+                print('|{:<15}{:<55}|'.format("Instansi", f": {nama.upper()}"))
+                nominal = ('{0:,}'.format(nominal).replace(',', '.'))
+                print('|{:<15}{:<55}|'.format("Nominal", f": Rp{nominal},00"))
+                print("-" * 71)
+                print('|{:^70}|'.format("BANK RAKYAT ELITE"))
+                print("-" * 71)
+                system('pause')
+            else:
+                multi()
+    elif(pilihan.upper() == "2"):
         multi()
     else:
-        print("Masukkan y atau n!")
+        print("Masukkan 1 atau 2!")
         system('pause')
         multi()
     menu()
@@ -386,46 +482,56 @@ def multi():
 def topup():
     system('cls')
     global id
-    print("Selamat datang di bagian top-up")
-    print("Pastikan nomor akun yang anda masukkan benar!")
+    print("-" * 76)
+    print('|{:^75}|'.format("TOP-UP"))
+    print("-" * 76)
     print_daftar(daftar_topup)
+    print("-" * 16)
     data = cari(id)
-    nama = input("Masukkan penyedia jasa\t:\t")
+    nama = input("\nMasukkan penyedia jasa\t\t\t\t: ")
     kode = daftar_topup.get(nama.upper())
     if(kode == None):
         print("Instansi tidak tersedia.")
         system('pause')
         topup()
-    print(f"Kode penyedia jasa adalah {kode}")
+    print(f"Kode penyedia jasa\t\t\t\t: {kode}")
     bayar = input(
-        "Masukkan kode top-up (diakhiri dengan kode penyedia jasa)\t: ")
-    nominal = int(input("Masukkan nominal top-up\t: "))
+        "Kode top-up (no. akun + kode penyedia jasa)\t: ")
+    nominal = int(input("Masukkan nominal top-up\t\t\t\t: "))
+    pilihan = input("""
+
+Mohon pastikan kembali data yang anda masukkan!
+Data sudah benar?
+1. Lanjut
+2. Kembali
+Masukkan pilihan: """)
     check_pin()
-    pilihan = input("Apakah data yang anda masukkan sudah benar? (y/n)")
-    if(pilihan.upper() == "Y"):
+    if(pilihan.upper() == "1"):
         if(operasi_saldo(id, nominal)):
             system('cls')
             operasi_saldo(id, nominal)
-            print("-" * 70)
+            print("-" * 71)
             print('|{:^70}|'.format("STRUK TRANSFER"))
-            print("-" * 70)
+            print("-" * 71)
             print('|{:<70}|'.format("TRANSFER BERHASIL!"))
             print('|{:<15}{:<55}|'.format("Waktu", f": {waktu()}"))
             print('|{:<15}{:<55}|'.format(
-                "Tujuan", f": {bayar[0:(len(bayar)-4)]}"))
+                "Tujuan", f": {bayar[0:(len(bayar)-3)]}"))
             print('|{:<15}{:<55}|'.format("Instansi", f": {nama.upper()}"))
             print('|{:<15}{:<55}|'.format(
-                "Nama Penerima", f": {data[7]}", end=""))
+                "Nama Penerima", f": {data[7].strip()}"))
             nominal = ('{0:,}'.format(nominal).replace(',', '.'))
             print('|{:<15}{:<55}|'.format("Nominal", f": Rp{nominal},00"))
-            print("-" * 70)
+            print("-" * 71)
             print('|{:^70}|'.format("BANK RAKYAT ELITE"))
-            print("-" * 70)
+            print("-" * 71)
             system('pause')
-    elif(pilihan.upper() == "N"):
+        else:
+            topup()
+    elif(pilihan.upper() == "2"):
         topup()
     else:
-        print("Masukkan y atau n!")
+        print("Masukkan 1 atau 2!")
         system('pause')
         topup()
     menu()
@@ -433,51 +539,83 @@ def topup():
 
 def kontak():
     system('cls')
-    print("Frequently Asked Question")
-    print("Q\t:\t\"Apa itu layanan BRE Mobile?\"")
-    print("A\t:\tLayanan BRE Mobile adalah layanan perbankan dari BRE yang memberikan kemudahan dan kenyamanan dalam bertransaksi melalui smartphone.\n")
-    print("Q\t:\t\"Apakah pembukaan rekening baru dapat dilakukan melalui aplikasi BRE Mobile?\"")
-    print("A\t:\tPembukaan rekening baru tidak dapat dilakukan pada aplikasi BRE Mobile, melainkan harus mendatangi kantor cabang terdekat.\n")
-    print("Q\t:\t\"Bagaimana cara mengubah password?\"")
-    print("A\t:\tAnda dapat mengubah password pada menu profil lalu pilih menu ubah password.\n")
-    print("Q\t:\t\"Bagaimana jika saya ingin melihat histori transaksi saya?\"")
-    print("A\t:\tAnda dapat melihat histori transaksi pada menu info rekening lalu pilih mutasi rekening.\n")
-    print("Q\t:\t\"Apa yang harus dilakukan jika kartu BRE Debit hilang?\"")
-    print("A\t:\tHal yang pertama harus dilakukan adalah memblokir kartu yang hilang melalui call center atau cabang.")
-    print("\n\nKontak Bank Rakyat Elite")
-    print("-"*25)
+    print("-" * 91)
+    print('|{:^90}|'.format("FREQUENTLY ASKED QUESTIONS"))
+    print("-" * 91)
+    print("")
+    print("Q\t: \"Apa itu layanan BRE Mobile?\"")
+    print("""A\t: > Layanan BRE Mobile adalah layanan perbankan dari BRE yang memberikan
+            kemudahan dan kenyamanan dalam bertransaksi melalui smartphone.\n""")
+    print("Q\t: \"Apakah pembukaan rekening baru dapat dilakukan melalui aplikasi BRE Mobile?\"")
+    print("""A\t: > Pembukaan rekening baru tidak dapat dilakukan pada aplikasi BRE Mobile, tetapi
+            harus mendatangi kantor cabang terdekat.""")
+    print("Q\t: \"Bagaimana cara mengubah password?\"")
+    print("A\t: > Anda dapat mengubah password pada menu profil lalu pilih menu ubah password.\n")
+    print("Q\t: \"Bagaimana jika saya ingin melihat histori transaksi saya?\"")
+    print("""A\t: > Anda dapat melihat histori transaksi pada menu info rekening lalu pilih mutasi 
+            rekening.\n""")
+    print("Q\t: \"Apa yang harus dilakukan jika kartu BRE Debit hilang?\"")
+    print("""A\t: > Hal yang pertama harus dilakukan adalah memblokir kartu yang hilang melalui 
+            call center atau cabang.""")
+    print("")
+    print("-" * 91)
+    print("\n")
+    print("-" * 58)
+    print('|{:^57}|'.format("KONTAK BANK RAKYAT ELITE"))
+    print("-" * 58)
+    print("")
     print("Whatsapp\t: 081321899777")
     print("Telegram\t: @siapbremobile")
     print("Instagram\t: @siapbremobile")
     print("Twitter\t\t: @siapbremobile")
     print("No. telp\t: 12120")
     print("E-mail\t\t: halobremobile@bre.co.id")
+    print("")
+    print("""Alamat\t\t:
+(1) Jl. Bendungan Hilir No.21, Biruan, Kec. Setiaselalu,
+    Kota Maykarta Selatan, Maykarta, 12920
+(2) Jl. Ganesa No. 277, Cirusa, Kec. Istananangor, 
+    Kota Bumina, Jawa Barat, 40411""")
+    print("")
+    print("-" * 58)
     system('pause')
     menu()
 
 
 def menu():
     system('cls')
+    print("-" * 31)
+    print('|{:^30}|'.format("MENU"))
+    print("-" * 31)
+    print("")
     print("1. Profil dan Informasi")
     print("2. Transfer")
     print("3. Multipayment")
     print("4. Top-up")
     print("5. FAQ dan Kontak")
-    print("6. Log out")
-    opsi = input("Pilihan menu: ")
+    print("6. Keluar")
+    opsi = input("\n> Pilihan menu: ")
     if(opsi == "1" or opsi.upper() == "PROFIL DAN INFORMASI"):
         profil()
     elif(opsi == "2" or opsi.upper() == "TRANSFER"):
         transfer()
-    elif(opsi == "3" or opsi.upper() == "MULTI-PAYMENT"):
+    elif(opsi == "3" or opsi.upper() == "MULTIPAYMENT"):
         multi()
-    elif(opsi == "4" or opsi.upper() == "TOP UP"):
+    elif(opsi == "4" or opsi.upper() == "TOP-UP"):
         topup()
     elif(opsi == "5" or opsi.upper() == "FAQ DAN KONTAK"):
         kontak()
-    elif(opsi == "6" or opsi.upper() == "LOG OUT"):
+    elif(opsi == "6" or opsi.upper() == "KELUAR"):
+        system('cls')
         print(
             "Terima kasih telah menggunakan layanan BRE Mobile, semoga hari anda menyenangkan!")
+        print("-" * 95, end="")
+        print("""
+███████████████████████████████████████████████████████████████████████████████████████████████
+█▄─▄─▀██▀▄─██▄─▀█▄─▄█▄─█─▄███▄─▄▄▀██▀▄─██▄─█─▄█▄─█─▄██▀▄─██─▄─▄─███▄─▄▄─█▄─▄███▄─▄█─▄─▄─█▄─▄▄─█
+██─▄─▀██─▀─███─█▄▀─███─▄▀█████─▄─▄██─▀─███─▄▀███▄─▄███─▀─████─██████─▄█▀██─██▀██─████─████─▄█▀█
+▀▄▄▄▄▀▀▄▄▀▄▄▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▀▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▀▀▄▄▄▀▀▄▄▀▄▄▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀""")
+        print("-" * 95)
         system('pause')
         system('cls')
         exit()

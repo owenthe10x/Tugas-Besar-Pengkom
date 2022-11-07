@@ -209,7 +209,7 @@ def ubah_password():
     print("-" * 56)
     print('|{:^55}|'.format("UBAH PASSWORD"))
     print("-" * 56)
-    id = input("Masukkan user ID\t\t: ")
+    global id
     while True:
         lama = input("Masukkan password sekarang\t: ")
         with open("C:/Users/PC/.vscode/python/chapter 00/TUBES1/data_pengguna.txt", mode="r") as fread:
